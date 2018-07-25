@@ -20,7 +20,7 @@ export default function authorize ( { auth, authActions, errActions, configs, au
       break
 
     case "implicit":
-      query.push("response_type=token")
+      query.push("response_type=" + encodeURIComponent('id_token token'))
       break
 
     case "clientCredentials":
@@ -61,6 +61,8 @@ export default function authorize ( { auth, authActions, errActions, configs, au
   let state = btoa(new Date())
 
   query.push("state=" + encodeURIComponent(state))
+  query.push("nonce=" + encodeURIComponent(Math.random()))
+  query.push("acr_values=seamless")
 
   if (typeof authConfigs.realm !== "undefined") {
     query.push("realm=" + encodeURIComponent(authConfigs.realm))
